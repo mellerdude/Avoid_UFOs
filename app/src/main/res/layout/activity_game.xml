@@ -66,6 +66,7 @@
     android:layout_marginHorizontal="16dp"
     android:layout_marginBottom="120dp"
     android:weightSum="3"
+    android:baselineAligned="false"
 
     >
 
@@ -76,7 +77,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/game_IMG_ufo1_1"
+            android:id="@+id/game_IMG_ufo1"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:visibility="invisible"
@@ -90,7 +91,9 @@
         android:id="@+id/game_LIST_lane2"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+
+        >
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/game_IMG_ufo2"
             android:layout_width="match_parent"
@@ -169,8 +172,6 @@
             android:id="@+id/game_FAB_left"
             android:layout_width="10dp"
             android:layout_height="0dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
             android:layout_margin="16dp"
             android:backgroundTint="@color/white"
             android:layout_weight="1"
@@ -182,12 +183,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="10"/>
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/game_ET_toast"/>
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/game_FAB_right"
             android:layout_width="10dp"
             android:layout_height="0dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
             android:layout_margin="16dp"
             android:backgroundTint="@color/white"
             android:layout_weight="1"
