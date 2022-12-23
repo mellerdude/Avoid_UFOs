@@ -3,7 +3,7 @@ package com.example.game3lanes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -31,6 +31,9 @@ public class GameActivity extends AppCompatActivity {
     private gameManager manager;
     private long startTime = 0;
     private Timer timer;
+    private int gameType = 0;
+
+    public static final String KEY_GAME_TYPE = "GAME_TYPE";
 
 
 
@@ -40,21 +43,27 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        findViews();
+        Intent previousIntent = getIntent();
+        int gameType = previousIntent.getIntExtra(KEY_GAME_TYPE, 0);
+        findViews(gameType);
         manager = new gameManager();
 
-
-        game_FAB_left.setOnClickListener(view -> {
-            clicked(-1);
-        });
-        game_FAB_right.setOnClickListener(view -> {
-            clicked(1);
-        });
+        if(gameType == Main_Menu.BTN_MODE) {
+            game_FAB_left.setOnClickListener(view -> {
+                clicked(-1);
+            });
+            game_FAB_right.setOnClickListener(view -> {
+                clicked(1);
+            });
+        }else
+            gone_buttons();
 
         startTime();
         
         
     }
+
+
 
     ///Getting the length of the layout(Because OnCreate denies it) and creating runnable for the game
 
@@ -195,6 +204,11 @@ public class GameActivity extends AppCompatActivity {
 
     ///If clicking right and the spaceship is not at the far end - go right
 
+    private void gone_buttons() {
+        game_FAB_left.setVisibility(View.INVISIBLE);
+        game_FAB_right.setVisibility(View.INVISIBLE);
+    }
+
     public void goRight() {
         if(manager.getSpaceshipLocation()!=manager.getMAXRIGHT()) {
             game_IMG_spaceships[manager.getSpaceshipLocation()].setVisibility(View.INVISIBLE);
@@ -215,7 +229,7 @@ public class GameActivity extends AppCompatActivity {
 
     ///Set up views
 
-    private void findViews() {
+    private void findViews(int gameType) {
         game_LBL_score = findViewById(R.id.game_LBL_score);
         game_FAB_left = findViewById(R.id.game_FAB_left);
         game_FAB_right = findViewById(R.id.game_FAB_right);
