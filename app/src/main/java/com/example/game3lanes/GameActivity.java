@@ -150,7 +150,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-
+    
 
     ///Toast message for collision
 
@@ -166,10 +166,8 @@ public class GameActivity extends AppCompatActivity {
     private void vibrate() {
 
         Vibrator v = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-            v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
-        }
+        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
     }
 
     ///Decreasing hearts for collision
