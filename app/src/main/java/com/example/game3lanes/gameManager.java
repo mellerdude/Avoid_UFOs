@@ -2,7 +2,7 @@ package com.example.game3lanes;
 
 
 public class gameManager {
-    private final int LANES = 3;
+    private final int LANES = 5;
     private final int MAXRIGHT = LANES - 1;
     private final int MAXLEFT = 0;
     private final int SHIPHEIGHT = 50;
@@ -10,14 +10,14 @@ public class gameManager {
     private final int MINVOL = 8;
     private final int DELAY = 50;
     private final int MAXLIFE = 3;
+    private final int MOV_SPEED = 20;
 
     private int life = 3;
     private long score = 0;
     private int bonusScore = 0;
 
-    private int spaceship_location = 1;
+    private int spaceship_location = 2;
     private int[] UFO_locationY;
-    private int[] movementSpeeds;
     private int laneLength;
 
 
@@ -25,8 +25,9 @@ public class gameManager {
 
     public gameManager(){
         UFO_locationY = new int[LANES];
-        movementSpeeds = new int[LANES];
         hasUFO = new boolean[]{
+                false,
+                false,
                 false,
                 false,
                 false
@@ -35,11 +36,10 @@ public class gameManager {
 
     public void createUFO(){
         for (int i=0; i<LANES; i++){
-            if(!getHasAsteroid(i)) {
+            if(!getHasUFO(i)) {
                 int num = (int) (((Math.random()) * 100) + 1);
-                if (num > 50) {
+                if (num > 90) {
                     setHasUFO(i, true);
-                    generateMovSpeed(i);
                 }
             }
         }
@@ -48,24 +48,21 @@ public class gameManager {
 
     public void moveUFO(){
         for (int i = 0; i<LANES ;i++){
-            if(getHasAsteroid(i) && UFO_locationY[i] <= laneLength)
-                UFO_locationY[i] += movementSpeeds[i];
+            if(getHasUFO(i) && UFO_locationY[i] <= laneLength)
+                UFO_locationY[i] += MOV_SPEED;
         }
     }
 
     public boolean check_collision(int i) {
-            if(getHasAsteroid(i)) {
-                if ((get_UFO_locationY(i) + DELAY + getSHIPHEIGHT() >= (getLaneLength())) && (getUFOlocationX(i) == getSpaceshipLocation())) {
-                    return true;
-                }
+            if(getHasUFO(i)) {
+                return (gotToEnd(i)) && (getUFOlocationX(i) == getSpaceshipLocation());
             }
         return false;
     }
 
     public boolean gotToEnd(int i){
-        if(getHasAsteroid(i)) {
-            if (get_UFO_locationY(i) + getSHIPHEIGHT() >= getLaneLength()-50)
-                return true;
+        if(getHasUFO(i)) {
+            return get_UFO_locationY(i) >= getLaneLength();
         }
         return false;
     }
@@ -78,13 +75,9 @@ public class gameManager {
             bonusScore = bonusScore + replacer;
     }
 
-    public void generateMovSpeed(int i){
-            int vol = (int) (((Math.random()) * MINVOL) + MINVOL);
-            movementSpeeds[i] = vol;
-    }
 
-    public int getMovementSpeed(int i){
-        return movementSpeeds[i];
+    public int getMovementSpeed(){
+        return MOV_SPEED;
     }
 
     public long getScore() {
@@ -143,7 +136,7 @@ public class gameManager {
         this.laneLength = laneLength;
     }
 
-    public boolean getHasAsteroid(int i) {
+    public boolean getHasUFO(int i) {
         return hasUFO[i];
     }
 

@@ -24,6 +24,25 @@
         </activity>
 
         <activity
+            android:name=".Game_over"
+            android:exported="true">
+
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Score_Activity"
+            android:exported="true">
+
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <activity
             android:name=".Main_Menu"
             android:exported="true">
             <intent-filter>

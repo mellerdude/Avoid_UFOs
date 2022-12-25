@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -77,7 +78,7 @@ public class GameActivity extends AppCompatActivity {
                 game_LANE_lane[0].getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 int width  = game_LANE_lane[0].getMeasuredWidth();
                 int height = game_LANE_lane[0].getMeasuredHeight();
-                manager.setLaneLength(height);
+                manager.setLaneLength(height-manager.getSHIPHEIGHT());
                 System.out.println("your lane length and width is" + width +"," + height);
 
             }
@@ -99,8 +100,8 @@ public class GameActivity extends AppCompatActivity {
             manager.setScore(((System.currentTimeMillis() - startTime)/ manager.getDELAY()) + manager.getBonusScore());
             game_LBL_score.setText(String.format("%06d", manager.getScore()));
             manager.createUFO();
-            moveUFO();
             resetPos();
+            moveUFO();
         }
     }
 
@@ -108,12 +109,12 @@ public class GameActivity extends AppCompatActivity {
 
     private void moveUFO() {
         for (int i =0 ; i<manager.getLANES();i++) {
-            if (manager.getHasAsteroid(i)) {
+            if (manager.getHasUFO(i)) {
+                manager.moveUFO();
                 game_IMG_UFO[i].setVisibility(View.VISIBLE);
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) game_LANE_lane[i].getLayoutParams();
-                params.setMargins(params.leftMargin, manager.get_UFO_locationY(i) + manager.getMovementSpeed(i), params.rightMargin, params.bottomMargin);
+                params.setMargins(params.leftMargin, manager.get_UFO_locationY(i), params.rightMargin, params.bottomMargin);
                 game_LANE_lane[i].setLayoutParams(params);
-                manager.moveUFO();
             }
         }
     }
@@ -123,6 +124,7 @@ public class GameActivity extends AppCompatActivity {
     private void resetPos() {
         for (int i =0 ; i<manager.getLANES();i++) {
             if(manager.gotToEnd(i)) {
+                invisibleUFO(i);
                 if(manager.check_collision(i)){
                     collision(i);
                 }else{
@@ -157,8 +159,6 @@ public class GameActivity extends AppCompatActivity {
     private void invisibleUFO(int i){
         game_IMG_UFO[i].setVisibility(View.INVISIBLE);
     }
-
-
     
 
     ///Toast message for collision
@@ -187,12 +187,17 @@ public class GameActivity extends AppCompatActivity {
                 manager.setLife(manager.getLife() - 1);
             }
             if(manager.getLife() == 0) {
-                manager.setLife(manager.getMAXLIFE());
-                for (int i = 0; i < manager.getMAXLIFE(); i++) {
-                    game_IMG_hearts[i].setVisibility(View.VISIBLE);
-                }
+                openGameOver();
             }
 
+    }
+
+    private void openGameOver() {
+        Intent gameOverIntent = new Intent(this, Game_over.class);
+        gameOverIntent.putExtra(Game_over.KEY_GAME_SCORE, manager.getScore());
+        timer.cancel();
+        startActivity(gameOverIntent);
+        finish();
     }
 
     ///When clicking fab buttons
@@ -237,6 +242,9 @@ public class GameActivity extends AppCompatActivity {
                 findViewById(R.id.game_IMG_spaceship1),
                 findViewById(R.id.game_IMG_spaceship2),
                 findViewById(R.id.game_IMG_spaceship3),
+                findViewById(R.id.game_IMG_spaceship4),
+                findViewById(R.id.game_IMG_spaceship5)
+
         };
         game_IMG_hearts = new ShapeableImageView[]{
                 findViewById(R.id.game_IMG_heart1),
@@ -247,11 +255,15 @@ public class GameActivity extends AppCompatActivity {
                 findViewById(R.id.game_IMG_ufo1),
                 findViewById(R.id.game_IMG_ufo2),
                 findViewById(R.id.game_IMG_ufo3),
+                findViewById(R.id.game_IMG_ufo4),
+                findViewById(R.id.game_IMG_ufo5)
         };
         game_LANE_lane = new LinearLayout[]{
                 findViewById(R.id.game_LIST_lane1),
                 findViewById(R.id.game_LIST_lane2),
-                findViewById(R.id.game_LIST_lane3)
+                findViewById(R.id.game_LIST_lane3),
+                findViewById(R.id.game_LIST_lane4),
+                findViewById(R.id.game_LIST_lane5)
         };
         game_ET_toast = findViewById(R.id.game_ET_toast);
     }

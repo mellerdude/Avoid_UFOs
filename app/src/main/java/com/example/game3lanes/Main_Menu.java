@@ -47,9 +47,9 @@ public class Main_Menu extends AppCompatActivity {
     }
 
     private void openGame(int gameType) {
-        Intent buttonGameIntent = new Intent(this, GameActivity.class);
-        buttonGameIntent.putExtra(GameActivity.KEY_GAME_TYPE, gameType);
-        startActivity(buttonGameIntent);
+        Intent gameIntent = new Intent(this, GameActivity.class);
+        gameIntent.putExtra(GameActivity.KEY_GAME_TYPE, gameType);
+        startActivity(gameIntent);
         finish();
     }
 
@@ -64,6 +64,10 @@ public class Main_Menu extends AppCompatActivity {
     }
 
     private void openScoreScreen() {
+        Intent scoreIntent = new Intent(this, Score_Activity.class);
+        scoreIntent.putExtra(GameActivity.KEY_GAME_TYPE, 0);
+        startActivity(scoreIntent);
+        finish();
     }
 
 

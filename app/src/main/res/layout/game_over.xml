@@ -1,0 +1,135 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background"
+    tools:context=".GameActivity">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="50dp"
+        app:srcCompat="@drawable/spaceship"/>
+
+    <LinearLayout
+        android:id="@+id/main_LL_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="200dp"
+        android:orientation="vertical"
+        android:weightSum="5">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/gameover_BTN_gameOver"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="50dp"
+            android:layout_weight="1"
+            android:text="Oh No!\nGame Over"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:backgroundTint="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/gameover_BTN_FinalScore"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:text="Final Score:"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:backgroundTint="@color/white" />
+
+        <TextView
+            android:id="@+id/gameover_TXT_gamescore"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/white"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/red"
+            android:textSize="30sp"
+            android:textStyle="bold"
+
+            />
+
+
+        <EditText
+            android:id="@+id/gameover_INPUTTEXT_name"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:autofillHints="Name"
+            android:background="@color/white"
+            android:hint="Enter Your Name"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/gameover_BTN_enter"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:text="Enter"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:backgroundTint="@color/white" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="horizontal"
+    android:layout_marginTop="50dp"
+    android:weightSum="2"
+    >
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/gameover_BTN_play"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Play again"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:backgroundTint="@color/white" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/gameover_BTN_menu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Main Menu"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:backgroundTint="@color/white" />
+</LinearLayout>
+
+    </LinearLayout>
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/spaceship"/>
+
+
+</RelativeLayout>
