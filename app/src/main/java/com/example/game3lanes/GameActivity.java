@@ -26,6 +26,7 @@ public class GameActivity extends AppCompatActivity {
     private MaterialButton game_FAB_right;
     private ShapeableImageView[] game_IMG_spaceships;
     private ShapeableImageView[] game_IMG_UFO;
+    private ShapeableImageView[] game_IMG_Burger;
     private ShapeableImageView[] game_IMG_hearts;
     private LinearLayout[] game_LANE_lane;
     private TextView game_ET_toast;
@@ -33,23 +34,22 @@ public class GameActivity extends AppCompatActivity {
     private long startTime = 0;
     private Timer timer;
     private int gameType = 0;
-
+    Context context;
     public static final String KEY_GAME_TYPE = "GAME_TYPE";
-
-
+    private Tilt_Detector tilt_detector;
 
     ///Creating the app, creating a game manager
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.context =  this.getApplicationContext();
         setContentView(R.layout.activity_game);
         Intent previousIntent = getIntent();
-        int gameType = previousIntent.getIntExtra(KEY_GAME_TYPE, 0);
+        this.gameType = previousIntent.getIntExtra(KEY_GAME_TYPE, 0);
         findViews(gameType);
-        manager = new gameManager();
 
-        if(gameType == Main_Menu.BTN_MODE) {
+        if(gameType == Main_Menu.BTN_MODE_FAST || gameType == Main_Menu.BTN_MODE_SLOW) {
             game_FAB_left.setOnClickListener(view -> {
                 clicked(-1);
             });
@@ -57,13 +57,44 @@ public class GameActivity extends AppCompatActivity {
                 clicked(1);
             });
         }else
-            gone_buttons();
+            invisible_buttons();
 
+        manager = new gameManager(gameType);
+        if(gameType == Main_Menu.SNSR_MODE)
+            initTiltDetector();
         startTime();
         
         
     }
 
+    private void initTiltDetector() {
+        tilt_detector = new Tilt_Detector(this, new TiltCallback() {
+
+
+            @Override
+            public void stepXPlusOne() {
+                goRight();
+            }
+
+
+
+            @Override
+            public void stepXNegativeOne() {
+                goLeft();
+            }
+
+
+
+            @Override
+            public void stepYPos() {
+                manager.setMovementSpeed(manager.getMovementSpeed() + 5);
+            }
+            @Override
+            public void stepYNeg() {
+                manager.setMovementSpeed(manager.getMovementSpeed() - 5);
+            }
+        });
+    }
 
 
     ///Getting the length of the layout(Because OnCreate denies it) and creating runnable for the game
@@ -99,9 +130,9 @@ public class GameActivity extends AppCompatActivity {
         if(manager.getLaneLength()>0) {
             manager.setScore(((System.currentTimeMillis() - startTime)/ manager.getDELAY()) + manager.getBonusScore());
             game_LBL_score.setText(String.format("%06d", manager.getScore()));
-            manager.createUFO();
-            resetPos();
+            manager.createObstacle();
             moveUFO();
+            resetPos();
         }
     }
 
@@ -109,11 +140,14 @@ public class GameActivity extends AppCompatActivity {
 
     private void moveUFO() {
         for (int i =0 ; i<manager.getLANES();i++) {
-            if (manager.getHasUFO(i)) {
-                manager.moveUFO();
-                game_IMG_UFO[i].setVisibility(View.VISIBLE);
+            if (manager.getHasObstacle(i)) {
+                manager.moveObstacle();
+                if(manager.getObstacleType(i) == manager.OBS_TYPE_UFO)
+                    game_IMG_UFO[i].setVisibility(View.VISIBLE);
+                else
+                    game_IMG_Burger[i].setVisibility(View.VISIBLE);
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) game_LANE_lane[i].getLayoutParams();
-                params.setMargins(params.leftMargin, manager.get_UFO_locationY(i), params.rightMargin, params.bottomMargin);
+                params.setMargins(params.leftMargin, manager.get_obstacle_locationY(i), params.rightMargin, params.bottomMargin);
                 game_LANE_lane[i].setLayoutParams(params);
             }
         }
@@ -124,16 +158,17 @@ public class GameActivity extends AppCompatActivity {
     private void resetPos() {
         for (int i =0 ; i<manager.getLANES();i++) {
             if(manager.gotToEnd(i)) {
-                invisibleUFO(i);
+                goneObstacle(i);
                 if(manager.check_collision(i)){
                     collision(i);
-                }else{
-                    manager.setBonusScore(50);
+                }
+                if(manager.check_eating(i)){
+                    manager.setBonusScore(1000);
                 }
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) game_LANE_lane[i].getLayoutParams();
                 params.setMargins(params.leftMargin, 0, params.rightMargin, params.bottomMargin);
-                manager.setUFO_locationY(i, -manager.get_UFO_locationY(i));
-                manager.setHasUFO(i, false);
+                manager.setObstacle_location_y(i, -manager.get_obstacle_locationY(i));
+                manager.setHasObstacle(i, false);
             }
         }
     }
@@ -150,14 +185,26 @@ public class GameActivity extends AppCompatActivity {
         decrease_hearts();
         vibrate();
         toast();
+        oopsSound();
         manager.setBonusScore(-100);
-        invisibleUFO(i);
+        goneObstacle(i);
+    }
+
+    protected void oopsSound(Void... params) {
+        MediaPlayer player = MediaPlayer.create(this.context, R.raw.oops);
+        player.setLooping(false); // Set looping
+        player.setVolume(1.0f, 1.0f);
+        player.start();
+
     }
 
     ///If a UFO has reached the end of the lane or collided with the spaceship make it invisible.
 
-    private void invisibleUFO(int i){
-        game_IMG_UFO[i].setVisibility(View.INVISIBLE);
+    private void goneObstacle(int i){
+        if(manager.getObstacleType(i) == manager.OBS_TYPE_UFO)
+            game_IMG_UFO[i].setVisibility(View.GONE);
+        else
+            game_IMG_Burger[i].setVisibility(View.GONE);
     }
     
 
@@ -195,6 +242,7 @@ public class GameActivity extends AppCompatActivity {
     private void openGameOver() {
         Intent gameOverIntent = new Intent(this, Game_over.class);
         gameOverIntent.putExtra(Game_over.KEY_GAME_SCORE, manager.getScore());
+        gameOverIntent.putExtra(Game_over.KEY_GAME_TYPE, this.gameType);
         timer.cancel();
         startActivity(gameOverIntent);
         finish();
@@ -209,7 +257,7 @@ public class GameActivity extends AppCompatActivity {
 
     ///If clicking right and the spaceship is not at the far end - go right
 
-    private void gone_buttons() {
+    private void invisible_buttons() {
         game_FAB_left.setVisibility(View.INVISIBLE);
         game_FAB_right.setVisibility(View.INVISIBLE);
     }
@@ -234,6 +282,20 @@ public class GameActivity extends AppCompatActivity {
 
     ///Set up views
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(gameType == Main_Menu.SNSR_MODE)
+            tilt_detector.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(gameType == Main_Menu.SNSR_MODE)
+            tilt_detector.stop();
+    }
+
     private void findViews(int gameType) {
         game_LBL_score = findViewById(R.id.game_LBL_score);
         game_FAB_left = findViewById(R.id.game_FAB_left);
@@ -257,6 +319,13 @@ public class GameActivity extends AppCompatActivity {
                 findViewById(R.id.game_IMG_ufo3),
                 findViewById(R.id.game_IMG_ufo4),
                 findViewById(R.id.game_IMG_ufo5)
+        };
+        game_IMG_Burger = new ShapeableImageView[]{
+                findViewById(R.id.game_IMG_burger1),
+                findViewById(R.id.game_IMG_burger2),
+                findViewById(R.id.game_IMG_burger3),
+                findViewById(R.id.game_IMG_burger4),
+                findViewById(R.id.game_IMG_burger5)
         };
         game_LANE_lane = new LinearLayout[]{
                 findViewById(R.id.game_LIST_lane1),

@@ -7,6 +7,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +54,10 @@ public class Score_DB {
     public void addScore(int place, long score, String name){
         Map<String, List<String>> values = new HashMap<>();
         values.put("" + place, Arrays.asList(name, String.valueOf(score)));
+//        for (int i=0;i<10;i++)
+//            values.put("" + i, getScore("" + i));
+//        Collections.sort(values, new Comparator<Map.Entry<String, List<String>>>() {
+
         for (Map.Entry<String, List<String>> entry : values.entrySet()) {
             String json = new Gson().toJson(entry.getValue());
             // Save the JSON string in the shared preferences

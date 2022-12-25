@@ -84,6 +84,12 @@
             android:layout_height="50dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/ufo" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/game_IMG_burger1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/hamburger" />
 
 
 
@@ -95,13 +101,19 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
 
-        >
+        android:orientation="horizontal">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/game_IMG_ufo2"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/ufo" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/game_IMG_burger2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/hamburger" />
 
     </LinearLayout>
 
@@ -109,13 +121,20 @@
         android:id="@+id/game_LIST_lane3"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:orientation="horizontal">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/game_IMG_ufo3"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:srcCompat="@drawable/ufo" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/game_IMG_burger3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/hamburger" />
 
     </LinearLayout>
 
@@ -123,13 +142,20 @@
         android:id="@+id/game_LIST_lane4"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:orientation="horizontal">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/game_IMG_ufo4"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/ufo" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/game_IMG_burger4"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/hamburger" />
 
     </LinearLayout>
 
@@ -137,13 +163,21 @@
         android:id="@+id/game_LIST_lane5"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:orientation="horizontal">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/game_IMG_ufo5"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:visibility="invisible"
             app:srcCompat="@drawable/ufo" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/game_IMG_burger5"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/hamburger" />
 
     </LinearLayout>
 

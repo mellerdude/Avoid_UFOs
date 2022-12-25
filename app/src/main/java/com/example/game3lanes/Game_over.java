@@ -14,6 +14,7 @@ import com.google.android.material.button.MaterialButton;
     public class Game_over extends AppCompatActivity {
 
         public static final String KEY_GAME_SCORE = "GAME_SCORE";
+        public static final String KEY_GAME_TYPE = "GAME_TYPE";
         public final String WIN = "You Win! Top ten skills!";
         public final String LOSE = "You Lost! Try again!";
         private MaterialButton gameover_BTN_gameOver;
@@ -25,6 +26,7 @@ import com.google.android.material.button.MaterialButton;
         private MaterialButton gameover_BTN_play;
         private long score = 0;
         private int place = 0;
+        private int gameType =0;
 
 
         @Override
@@ -35,6 +37,7 @@ import com.google.android.material.button.MaterialButton;
             Score_DB.init(this);
             score = previousIntent.getLongExtra(KEY_GAME_SCORE, 0);
             place = Score_DB.getInstance().isGoodScore(score);
+            this.gameType = previousIntent.getIntExtra(KEY_GAME_TYPE, 0);
             findViews();
             setViews(place);
         }
@@ -69,7 +72,7 @@ import com.google.android.material.button.MaterialButton;
 
         private void clickedPlay() {
             Intent gameIntent = new Intent(this, GameActivity.class);
-            gameIntent.putExtra(GameActivity.KEY_GAME_TYPE, 0);
+            gameIntent.putExtra(GameActivity.KEY_GAME_TYPE, this.gameType);
             startActivity(gameIntent);
             finish();
 

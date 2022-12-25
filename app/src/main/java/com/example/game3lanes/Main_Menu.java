@@ -9,16 +9,19 @@ import com.google.android.material.button.MaterialButton;
 
 public class Main_Menu extends AppCompatActivity {
 
-    private MaterialButton main_BTN_ButtonGame;
+    private MaterialButton main_BTN_ButtonGameFast;
+    private MaterialButton main_BTN_ButtonGameSlow;
     private MaterialButton main_BTN_SensorGame;
     private MaterialButton main_BTN_Scores;
 
-    private final String buttonGameText = "Button Lane Game";
+    private final String buttonGameFastText = "Button Lane Game\nFAST";
+    private final String buttonGameTextSlow = "Button Lane Game\nSLOW";
     private final String sensorGameText = "Sensor Lane Game";
     private final String scoreText = "Hi - Scores";
 
-    public final static int BTN_MODE = 0;
-    public final static int SNSR_MODE = 1;
+    public final static int BTN_MODE_FAST = 0;
+    public final static int BTN_MODE_SLOW = 1;
+    public final static int SNSR_MODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +29,11 @@ public class Main_Menu extends AppCompatActivity {
         setContentView(R.layout.main_menu);
         findViews();
 
-        main_BTN_ButtonGame.setOnClickListener(view -> {
-            clickedButtonGame();
+        main_BTN_ButtonGameFast.setOnClickListener(view -> {
+            clickedButtonFastGame();
+        });
+        main_BTN_ButtonGameSlow.setOnClickListener(view -> {
+            clickedButtonSlowGame();
         });
         main_BTN_SensorGame.setOnClickListener(view -> {
             clickedSensorGame();
@@ -40,10 +46,12 @@ public class Main_Menu extends AppCompatActivity {
 
     }
 
+    private void clickedButtonSlowGame() {
+        openGame(BTN_MODE_SLOW);
+    }
 
-
-    private void clickedButtonGame() {
-        openGame(BTN_MODE);
+    private void clickedButtonFastGame() {
+        openGame(BTN_MODE_FAST);
     }
 
     private void openGame(int gameType) {
@@ -65,15 +73,16 @@ public class Main_Menu extends AppCompatActivity {
 
     private void openScoreScreen() {
         Intent scoreIntent = new Intent(this, Score_Activity.class);
-        scoreIntent.putExtra(GameActivity.KEY_GAME_TYPE, 0);
         startActivity(scoreIntent);
         finish();
     }
 
 
     private void findViews() {
-        main_BTN_ButtonGame = findViewById(R.id.main_BTN_ButtonGame);
-        main_BTN_ButtonGame.setText(buttonGameText);
+        main_BTN_ButtonGameFast = findViewById(R.id.main_BTN_ButtonGameFast);
+        main_BTN_ButtonGameSlow = findViewById(R.id.main_BTN_ButtonGameSlow);
+        main_BTN_ButtonGameFast.setText(buttonGameFastText);
+        main_BTN_ButtonGameSlow.setText(buttonGameTextSlow);
         main_BTN_SensorGame = findViewById(R.id.main_BTN_SensorGame);
         main_BTN_SensorGame.setText(sensorGameText);
         main_BTN_Scores = findViewById(R.id.main_BTN_Scores);
