@@ -1,7 +1,10 @@
 package com.example.game3lanes;
 
+import static android.content.Context.LOCATION_SERVICE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -19,8 +22,10 @@ public class Score_DB {
     public static final int NUM_SCORE = 10;
     private static Score_DB instance = null;
     private SharedPreferences preferences;
+    private Context context;
 
     private Score_DB(Context context){
+        this.context = context;
         preferences = context.getSharedPreferences(DB_FILE,Context.MODE_PRIVATE);
         if(preferences.getString("" + 1, null) == null)
             enterDefaultScores(preferences);
@@ -53,7 +58,9 @@ public class Score_DB {
 
     public void addScore(int place, long score, String name){
         Map<String, List<String>> values = new HashMap<>();
-        values.put("" + place, Arrays.asList(name, String.valueOf(score)));
+        Location location = new Location(context);
+        double[] locations = location.getLocation();
+        values.put("" + place, Arrays.asList(name, String.valueOf(score), String.valueOf(locations[0]), String.valueOf(locations[1])));
 //        for (int i=0;i<10;i++)
 //            values.put("" + i, getScore("" + i));
 //        Collections.sort(values, new Comparator<Map.Entry<String, List<String>>>() {
@@ -84,8 +91,9 @@ public class Score_DB {
 
     public void enterDefaultScores(SharedPreferences preferences){
         Map<String, List<String>> values = new HashMap<>();
+
         for (int i=0; i<NUM_SCORE; i++){
-            values.put("" + (i + 1), Arrays.asList("Bereshit", String.valueOf((i+1) * 100)));
+            values.put("" + (i + 1), Arrays.asList("Bereshit", String.valueOf((i+1) * 100), String.valueOf(0.0), String.valueOf(0.0)));
         }
         for (Map.Entry<String, List<String>> entry : values.entrySet()) {
             String json = new Gson().toJson(entry.getValue());

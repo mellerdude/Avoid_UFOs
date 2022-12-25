@@ -4,6 +4,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+
+import com.example.game3lanes.interfaces.TiltCallback;
+
 public class Tilt_Detector {
     private TiltCallback tiltCallback;
     private SensorManager sensorManager;

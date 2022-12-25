@@ -7,18 +7,13 @@
     android:background="@drawable/background"
     tools:context=".GameActivity">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="50dp"
-        app:srcCompat="@drawable/spaceship"/>
+
     <LinearLayout
         android:id="@+id/main_LL_show"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="0dp"
         android:orientation="vertical"
         android:weightSum="10">
 
@@ -27,8 +22,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/score_BTN_score1"
             android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:textAllCaps="false"
@@ -38,8 +33,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/score_BTN_score2"
             android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:textAllCaps="false"
@@ -49,8 +44,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/score_BTN_score3"
             android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:textAllCaps="false"
@@ -60,8 +55,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/score_BTN_score4"
             android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:textAllCaps="false"
@@ -71,8 +66,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/score_BTN_score5"
             android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:textAllCaps="false"
@@ -82,8 +77,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/score_BTN_score6"
             android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:textAllCaps="false"
@@ -93,8 +88,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/score_BTN_score7"
             android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:textAllCaps="false"
@@ -104,8 +99,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/score_BTN_score8"
             android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:textAllCaps="false"
@@ -115,8 +110,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/score_BTN_score9"
             android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:textAllCaps="false"
@@ -126,37 +121,31 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/score_BTN_score10"
             android:layout_width="300dp"
-            android:layout_height="100dp"
-            android:textSize="24sp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:textAllCaps="false"
             app:backgroundTint="@color/white"
             android:textColor="@color/black"/>
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/score_BTN_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:text="Main Menu"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:backgroundTint="@color/white" />
 
     </LinearLayout>
-    <com.google.android.material.imageview.ShapeableImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="50dp"
-        app:srcCompat="@drawable/spaceship"/>
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/score_BTN_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:text="Main Menu"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:backgroundTint="@color/white" />
+
+
 
 
 

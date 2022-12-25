@@ -1,68 +1,40 @@
 package com.example.game3lanes;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.imageview.ShapeableImageView;
-
+import com.example.game3lanes.interfaces.LocationCallback;
+import com.example.game3lanes.views.List_Fragment;
+import com.example.game3lanes.views.Map_Fragment;
 
 public class Score_Activity extends AppCompatActivity {
-
-    private static final String KEY_GAME_SCORE = "GAME_SCORE";
-    private static final String KEY_GAME_NAME = "GAME_NAME";
-    private MaterialButton[] score_BTN_scores;
-    private MaterialButton score_BTN_menu;
+    private List_Fragment listFragment;
+    private Map_Fragment mapFragment;
 
 
+    LocationCallback locationCallback = new LocationCallback() {
+        @Override
+        public void coordinates(String key) {
+            showUserLocation(key);
+        }
+    };
+    private void showUserLocation(String key) {
+        double x = Double.parseDouble(Score_DB.getInstance().getScore(key).get(2));
+        double y = Double.parseDouble(Score_DB.getInstance().getScore(key).get(3));
+        mapFragment.zoom(x, y);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.hi_score);
-        Score_DB.init(this);
-        findViews();
-        getScoreValues();
-        score_BTN_menu.setOnClickListener(view -> {
-            clickedMenu();
-        });
+        setContentView(R.layout.high_scores);
 
+        listFragment = new List_Fragment();
+        listFragment.setCallback(locationCallback);
+        mapFragment = new Map_Fragment();
+
+        getSupportFragmentManager().beginTransaction().add(R.id.main_FRAME_list, listFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.main_FRAME_map, mapFragment).commit();
     }
-
-    private void clickedMenu() {
-        Intent menuIntent = new Intent(this, Main_Menu.class);
-        startActivity(menuIntent);
-        finish();
-    }
-
-    private void getScoreValues() {
-        int j = Score_DB.NUM_SCORE;
-        for (int i =0; i < Score_DB.NUM_SCORE ; i++) {
-            String name = Score_DB.getInstance().getScore("" + (i+1)).get(0);
-            String score = Score_DB.getInstance().getScore("" + (i+1)).get(1);
-            String full = "" + j + ". " + name + ": " + score;
-            score_BTN_scores[i].setText(full);
-            j--;
-        }
-    }
-
-    private void findViews() {
-        score_BTN_menu = findViewById(R.id.score_BTN_menu);
-        score_BTN_scores = new MaterialButton[]{
-                findViewById(R.id.score_BTN_score10),
-                findViewById(R.id.score_BTN_score9),
-                findViewById(R.id.score_BTN_score8),
-                findViewById(R.id.score_BTN_score7),
-                findViewById(R.id.score_BTN_score6),
-                findViewById(R.id.score_BTN_score5),
-                findViewById(R.id.score_BTN_score4),
-                findViewById(R.id.score_BTN_score3),
-                findViewById(R.id.score_BTN_score2),
-                findViewById(R.id.score_BTN_score1)
-        };
-    }
-
 }
