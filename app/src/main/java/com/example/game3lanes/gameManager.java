@@ -8,13 +8,11 @@ public class gameManager {
     private final int SHIPHEIGHT = 50;
     private final int BONUS = 10;
     private final int MINVOL = 8;
-    private final int MOV_SPEED_FAST = 15;
-    private final int MOV_SPEED_SLOW = 30;
-    private final int FAST_DELAY = 50;
-    private final int SLOW_DELAY = 500;
+    private final int MOV_SPEED = 35;
+    public final static int FAST_DELAY = 250;
+    public final static int SLOW_DELAY = 500;
     private final int MAXLIFE = 3;
 
-    private int speed;
     private int delay;
     public final int OBS_TYPE_UFO = 0;
     public final int OBS_TYPE_BURGER = 1;
@@ -38,11 +36,9 @@ public class gameManager {
 
         if(gameType == Main_Menu.BTN_MODE_SLOW || gameType == Main_Menu.SNSR_MODE) {
             setDelay(SLOW_DELAY);
-            setMovementSpeed(MOV_SPEED_SLOW);
         }
         else {
             setDelay(FAST_DELAY);
-            setMovementSpeed(FAST_DELAY);
         }
     }
 
@@ -50,7 +46,7 @@ public class gameManager {
         for (int i=0; i<LANES; i++){
             if(!getHasObstacle(i)) {
                 int num = (int) (((Math.random()) * 100) + 1);
-                if (num > 90) {
+                if (num > 40) {
                     setHasObstacle(i, true);
                     if(num%3 == 0)
                         setObstacleType(i, OBS_TYPE_BURGER);
@@ -101,14 +97,9 @@ public class gameManager {
 
 
     public int getMovementSpeed(){
-        return speed;
+        return MOV_SPEED;
     }
 
-    public void setMovementSpeed(int speed){
-        this.speed = speed;
-        if(this.speed< 0)
-            this.speed = 0;
-    }
 
     public long getScore() {
         return score;

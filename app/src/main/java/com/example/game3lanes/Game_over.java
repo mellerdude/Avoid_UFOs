@@ -1,21 +1,31 @@
 package com.example.game3lanes;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.game3lanes.views.List_Fragment;
 import com.google.android.material.button.MaterialButton;
 
 
-    public class Game_over extends AppCompatActivity {
+    public class Game_over extends AppCompatActivity implements LocationListener {
 
         public static final String KEY_GAME_SCORE = "GAME_SCORE";
         public static final String KEY_GAME_TYPE = "GAME_TYPE";
+        private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
         public final String WIN = "You Win! Top ten skills!";
         public final String LOSE = "You Lost! Try again!";
         private MaterialButton gameover_BTN_gameOver;
@@ -27,7 +37,12 @@ import com.google.android.material.button.MaterialButton;
         private MaterialButton gameover_BTN_play;
         private long score = 0;
         private int place = 0;
-        private int gameType =0;
+        private int gameType = 0;
+        private double lati = 0;
+        private double longi = 0;
+        LocationManager locationManager;
+        int locationChanged = 0;
+
 
 
         @Override
@@ -44,14 +59,14 @@ import com.google.android.material.button.MaterialButton;
         }
 
         private void setViews(int place) {
-            if(place>0){
+            if (place > 0) {
                 gameover_BTN_gameOver.setText(WIN);
                 gameover_TXT_gamescore.setText("" + score);
                 gameover_BTN_enter.setOnClickListener(view -> {
                     clickedEnter();
                 });
-                
-            }else{
+
+            } else {
                 gameover_BTN_gameOver.setText(LOSE);
                 gameover_BTN_enter.setVisibility(View.INVISIBLE);
                 gameover_INPUTTEXT_name.setVisibility(View.INVISIBLE);
@@ -80,10 +95,8 @@ import com.google.android.material.button.MaterialButton;
         }
 
         private void clickedEnter() {
-            Intent scoreIntent = new Intent(this, Score_Activity.class);
-            Score_DB.getInstance().addScore(place, score, String.valueOf(gameover_INPUTTEXT_name.getText()));
-            startActivity(scoreIntent);
-            finish();
+            getLocation();
+
         }
 
         private void findViews() {
@@ -98,6 +111,40 @@ import com.google.android.material.button.MaterialButton;
         }
 
 
+        void getLocation() {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // Permission is not granted
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+                } else {
+                    // No explanation needed; request the permission
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
 
+                    // MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            } else {
+                // Permission has already been granted
+                try {
+                    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, this);
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
+        @Override
+        public void onLocationChanged(@NonNull Location location) {
+            longi = location.getLongitude();
+            lati = location.getLatitude();
+            Intent scoreIntent = new Intent(this, Score_Activity.class);
+            Score_DB.getInstance().addScore(place, score, String.valueOf(gameover_INPUTTEXT_name.getText()), lati, longi);
+            startActivity(scoreIntent);
+            finish();
+        }
     }

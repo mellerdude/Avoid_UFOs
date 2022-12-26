@@ -42,7 +42,12 @@ public class List_Fragment extends Fragment {
         Score_DB.init(this.context);
         findViews(view);
         getScoreValues();
-
+        score_BTN_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickedMenu();
+            }
+        });
         for(int i=0; i<10;i++){
             currently = i;
             score_BTN_scores[i].setOnClickListener(new View.OnClickListener(){
@@ -52,12 +57,7 @@ public class List_Fragment extends Fragment {
                 }
             });
         }
-        score_BTN_menu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickedMenu();
-            }
-        });
+
         return view;
     }
 

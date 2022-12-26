@@ -56,14 +56,9 @@ public class Score_DB {
         return values;
     }
 
-    public void addScore(int place, long score, String name){
+    public void addScore(int place, long score, String name, double lati, double longi){
         Map<String, List<String>> values = new HashMap<>();
-        Location location = new Location(context);
-        double[] locations = location.getLocation();
-        values.put("" + place, Arrays.asList(name, String.valueOf(score), String.valueOf(locations[0]), String.valueOf(locations[1])));
-//        for (int i=0;i<10;i++)
-//            values.put("" + i, getScore("" + i));
-//        Collections.sort(values, new Comparator<Map.Entry<String, List<String>>>() {
+        values.put("" + place, Arrays.asList(name, String.valueOf(score), String.valueOf(lati), String.valueOf(longi)));
 
         for (Map.Entry<String, List<String>> entry : values.entrySet()) {
             String json = new Gson().toJson(entry.getValue());
@@ -93,7 +88,7 @@ public class Score_DB {
         Map<String, List<String>> values = new HashMap<>();
 
         for (int i=0; i<NUM_SCORE; i++){
-            values.put("" + (i + 1), Arrays.asList("Bereshit", String.valueOf((i+1) * 100), String.valueOf(0.0), String.valueOf(0.0)));
+            values.put("" + (i + 1), Arrays.asList("Bereshit", String.valueOf((i+1) * 100), String.valueOf(100.0), String.valueOf(100.0)));
         }
         for (Map.Entry<String, List<String>> entry : values.entrySet()) {
             String json = new Gson().toJson(entry.getValue());

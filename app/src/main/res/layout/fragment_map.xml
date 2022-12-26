@@ -5,13 +5,14 @@
     android:layout_height="match_parent"
     android:background="@color/blue">
 
-    <TextView
-        android:id="@+id/map_LBL_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Map"
-        android:layout_centerInParent="true"
-        android:textSize="40sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
+    <LinearLayout
+        android:id="@+id/map_View_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <fragment
+        android:id="@+id/map_MAP_show"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    </LinearLayout>
 </RelativeLayout>

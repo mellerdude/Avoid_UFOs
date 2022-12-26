@@ -88,11 +88,11 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void stepYPos() {
-                manager.setMovementSpeed(manager.getMovementSpeed() + 5);
+                manager.setDelay(gameManager.SLOW_DELAY);
             }
             @Override
             public void stepYNeg() {
-                manager.setMovementSpeed(manager.getMovementSpeed() - 5);
+                manager.setDelay(gameManager.FAST_DELAY);
             }
         });
     }
