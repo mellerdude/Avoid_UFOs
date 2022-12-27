@@ -8,9 +8,9 @@ public class gameManager {
     private final int SHIPHEIGHT = 50;
     private final int BONUS = 10;
     private final int MINVOL = 8;
-    private final int MOV_SPEED = 35;
-    public final static int FAST_DELAY = 250;
-    public final static int SLOW_DELAY = 500;
+    private final int MOV_SPEED = 15;
+    public final static int FAST_DELAY = 50;
+    public final static int SLOW_DELAY = 100;
     private final int MAXLIFE = 3;
 
     private int delay;
